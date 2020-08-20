@@ -1,7 +1,8 @@
 import express from "express";
 import {
     home,
-    whoami
+    whoami,
+    me
 } from "./controller";
 
 export const router = express.Router();
@@ -9,3 +10,5 @@ export const router = express.Router();
 router.get('/', home);
 
 router.get('/whoami', whoami);
+
+router.post('/me', me);
