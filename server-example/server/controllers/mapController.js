@@ -4,16 +4,15 @@ export const getMaps = async (req, res) => {
     const {
         params: { userIdx }
     } = req;
-    let numUserIdx = parseInt(userIdx);
     try {
         const inviteList = await Invite.findAll({
             attributes: ['mapIdx'],
             where: {
-                userIdx: numUserIdx
+                userIdx
             }
         });
         let mapIdxList = [];
-        for (var index in inviteList) {
+        for (let index in inviteList) {
             mapIdxList.push(inviteList[index]['mapIdx']);
         }
         const mapList = await Map.findAll({
@@ -37,16 +36,18 @@ export const getMaps = async (req, res) => {
 export const addMap = async (req, res) => {
     console.log("addMap 연결");
     const {
-        body: { name, desc, color, open }
+        body: { userIdx, name, desc, color, open }
     } = req;
-    let numColor = parseInt(color);
-    let numOpen = parseInt(open);
     try {
-        await Map.create({
+        const newMap = await Map.create({
             name,
             desc,
-            color: numColor,
-            open: numOpen
+            color,
+            open
+        });
+        await Invite.create({
+            mapIdx: newMap.mapIdx,
+            userIdx
         });
         res.send({
             "response" : "success"
@@ -64,20 +65,16 @@ export const editMap = async (req, res) => {
     const {
         body: { mapIdx, name, desc, color, open }
     } = req;
-
-    let numMapIdx = parseInt(mapIdx);
-    let numColor = parseInt(color);
-    let numOpen = parseInt(open);
     try {
         await Map.update({
             name,
             desc,
-            color: numColor,
-            open: numOpen
+            color,
+            open
             }, 
             {
                 where: {
-                    mapIdx: numMapIdx
+                    mapIdx
                 }
             }
         );
@@ -96,15 +93,39 @@ export const delMap = async (req, res) => {
     const {
         params: { mapIdx }
     } = req;
-
-    let numMapIdx = parseInt(mapIdx);
     try {
         await Map.destroy({
             where: {
-                mapIdx: numMapIdx
+                mapIdx
             }
         });
 
+        const delPlace = await Place.findAll({
+            attributes: ['placeIdx'],
+            where: {
+                mapIdx
+            }
+        });
+        let placeIdxList = [];
+        for (let index in delPlace) {
+            placeIdxList.push(delPlace[index]['placeIdx']);
+        }
+        await Comment.destroy({
+            where: {
+                placeIdx: placeIdxList
+            }
+        });
+
+        await Place.destroy({
+            where: {
+                mapIdx
+            }
+        });
+        await Invite.destroy({
+            where: {
+                mapIdx
+            }
+        });
         res.send({
             "response" : "success"
         });
@@ -120,12 +141,11 @@ export const getPlaces = async (req, res) => {
     const {
         params: { mapIdx }
     } = req;
-    let numMapIdx = parseInt(mapIdx);
     try {
         const placeList = await Place.findAll({
             attributes: ['name'],
             where: {
-                mapIdx: numMapIdx
+                mapIdx
             }
         });
         res.send({
@@ -145,15 +165,12 @@ export const addPlace = async (req, res) => {
     const {
         body: { mapIdx, name, latitude, longitude }
     } = req;
-    let numMapIdx = parseInt(mapIdx);
-    let floatLatitude = parseFloat(latitude);
-    let floatLongitude = parseFloat(longitude);
     try {
         await Place.create({
-            mapIdx: numMapIdx,
+            mapIdx,
             name,
-            latitude: floatLatitude,
-            longitude: floatLongitude
+            latitude,
+            longitude
         });
         res.send({
             "response" : "success"
@@ -178,11 +195,15 @@ export const delPlace = async (req, res) => {
     const {
         params: { placeIdx }
     } = req;
-    let numPlaceIdx = parseInt(placeIdx);
     try {
+        await Comment.destroy({
+            where: {
+                placeIdx
+            }
+        });
         await Place.destroy({
             where: {
-                placeIdx: numPlaceIdx
+                placeIdx
             }
         });
         res.send({
@@ -200,16 +221,15 @@ export const getAllPins = async (req, res) => {
     const {
         params: { userIdx }
     } = req;
-    let numUserIdx = parseInt(userIdx);
     try {
         const inviteList = await Invite.findAll({
             attributes: ['mapIdx'],
             where: {
-                userIdx: numUserIdx
+                userIdx
             }
         });
         let mapIdxList = [];
-        for (var index in inviteList) {
+        for (let index in inviteList) {
             mapIdxList.push(inviteList[index]['mapIdx']);
         }
         const placeList = await Place.findAll({
@@ -234,12 +254,11 @@ export const getSpePins = async (req, res) => {
     const {
         params: { mapIdx }
     } = req;
-    let numMapIdx = parseInt(mapIdx);
     try {
         const placeList = await Place.findAll({
             attributes: ['name', 'latitude', 'longitude'],
             where: {
-                mapIdx: numMapIdx
+                mapIdx
             }
         });
         res.send({
