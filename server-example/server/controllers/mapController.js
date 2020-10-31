@@ -16,7 +16,7 @@ export const getMaps = async (req, res) => {
             mapIdxList.push(inviteList[index]['mapIdx']);
         }
         const mapList = await Map.findAll({
-            attributes: ['mapIdx', 'name'],
+            attributes: ['mapIdx', 'name', 'color'],
             where: {
                 mapIdx: mapIdxList
             },

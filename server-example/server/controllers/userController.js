@@ -16,13 +16,13 @@ export const register = async (req, res) => {
         console.log(newUser);
 
         res.send({
-            "response" : "OK"
+            "response" : "success"
         });
         console.log('회원가입 완료')
     } catch (err) {
         console.log(err);
         res.send({
-            "response" : "FAILED"
+            "response" : "failed"
         });
     }
 }
@@ -59,11 +59,27 @@ export const editCmt = async (req, res) => {
 export const delCmt = async (req, res) => {
     
 };
-export const getRate = async (req, res) => {};
-export const addRate = async (req, res) => {};
-export const editRate = async (req, res) => {};
-export const delRate = async (req, res) => {};
-export const getReserve = async (req, res) => {};
-export const addReserve = async (req, res) => {};
-export const editReserve = async (req, res) => {};
-export const delReserve = async (req, res) => {};
+export const getRate = async (req, res) => {
+
+};
+export const addRate = async (req, res) => {
+
+};
+export const editRate = async (req, res) => {
+
+};
+export const delRate = async (req, res) => {
+
+};
+export const getReserve = async (req, res) => {
+
+};
+export const addReserve = async (req, res) => {
+
+};
+export const editReserve = async (req, res) => {
+
+};
+export const delReserve = async (req, res) => {
+    
+};
