@@ -15,11 +15,11 @@ module.exports = (sequelize, DataTypes) => {
           key: 'mapIdx'
         }
       },
-      userIdx: {
+      kakaoId: {
         type: DataTypes.INTEGER,
         reference: {
           model: db.User,
-          key: 'userIdx'
+          key: 'kakaoId'
         }
       },
     } ,{
