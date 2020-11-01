@@ -27,10 +27,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.FLOAT,
         allowNull: false
       },
-      rateAvg: {
-        type: DataTypes.FLOAT,
-        allowNull: false
-      },
       reserve: {
         type: DataTypes.INTEGER,
         allowNull: false,

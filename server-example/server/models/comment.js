@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         }
       },
       kakaoId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         reference: {
           model: db.User,
           key: 'kakaoId'
