@@ -1,14 +1,14 @@
-const { User, Map, Place, Invite, Comment } = require('../models');
+const { Map, Place, Invite, Comment } = require('../models');
 
 export const getMaps = async (req, res) => {
     const {
-        params: { userIdx }
+        params: { kakaoId }
     } = req;
     try {
         const inviteList = await Invite.findAll({
             attributes: ['mapIdx'],
             where: {
-                userIdx
+                kakaoId
             }
         });
         let mapIdxList = [];
@@ -36,7 +36,7 @@ export const getMaps = async (req, res) => {
 export const addMap = async (req, res) => {
     console.log("addMap 연결");
     const {
-        body: { userIdx, name, desc, color, open }
+        body: { kakaoId, name, desc, color, open }
     } = req;
     try {
         const newMap = await Map.create({
@@ -47,7 +47,7 @@ export const addMap = async (req, res) => {
         });
         await Invite.create({
             mapIdx: newMap.mapIdx,
-            userIdx
+            kakaoId
         });
         res.send({
             "response" : "success"
@@ -219,13 +219,13 @@ export const delPlace = async (req, res) => {
 };
 export const getAllPins = async (req, res) => {
     const {
-        params: { userIdx }
+        params: { kakaoId }
     } = req;
     try {
         const inviteList = await Invite.findAll({
             attributes: ['mapIdx'],
             where: {
-                userIdx
+                kakaoId
             }
         });
         let mapIdxList = [];
