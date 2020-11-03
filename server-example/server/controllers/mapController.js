@@ -16,7 +16,6 @@ export const getMaps = async (req, res) => {
             mapIdxList.push(inviteList[index]['mapIdx']);
         }
         const mapList = await Map.findAll({
-            attributes: ['mapIdx', 'name', 'color'],
             where: {
                 mapIdx: mapIdxList
             },
@@ -99,7 +98,6 @@ export const delMap = async (req, res) => {
                 mapIdx
             }
         });
-
         const delPlace = await Place.findAll({
             attributes: ['placeIdx'],
             where: {
@@ -143,7 +141,6 @@ export const getPlaces = async (req, res) => {
     } = req;
     try {
         const placeList = await Place.findAll({
-            attributes: ['name'],
             where: {
                 mapIdx
             }
@@ -183,14 +180,6 @@ export const addPlace = async (req, res) => {
         });
     }
 };
-export const editPlace = async (req, res) => {
-    // 여기는 예약만 관리
-    console.log("editPlace 연결");
-    const {
-        body: { placeIdx, reserve, reserveDay }
-    } = req;
-    // datetime 결정하면 api 다시
-};
 export const delPlace = async (req, res) => {
     const {
         params: { placeIdx }
@@ -217,6 +206,33 @@ export const delPlace = async (req, res) => {
         });
     }
 };
+export const editReserve = async (req, res) => {
+    console.log("editReserve 연결");
+    const {
+        body: { placeIdx, reserve, reserveDay }
+    } = req;
+    try {
+        await Place.update({
+            reserve,
+            reserveDay
+            }, 
+            {
+                where: {
+                    placeIdx
+                }
+            }
+        );
+        res.send({
+            "response" : "success"
+        });
+        console.log('예약 수정 완료');
+    } catch(err) {
+        console.log(err);
+        res.send({
+            "response" : "failed"
+        });
+    }
+};
 export const getAllPins = async (req, res) => {
     const {
         params: { kakaoId }
@@ -233,7 +249,6 @@ export const getAllPins = async (req, res) => {
             mapIdxList.push(inviteList[index]['mapIdx']);
         }
         const placeList = await Place.findAll({
-            attributes: ['name', 'latitude', 'longitude'],
             where: {
                 mapIdx: mapIdxList
             },
@@ -256,7 +271,6 @@ export const getSpePins = async (req, res) => {
     } = req;
     try {
         const placeList = await Place.findAll({
-            attributes: ['name', 'latitude', 'longitude'],
             where: {
                 mapIdx
             }

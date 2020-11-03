@@ -1,7 +1,29 @@
-const { User, Map, Place, Invite, Comment } = require('../models');
+const { User, Comment } = require('../models');
 
-export const register = async (req, res) => {
-    console.log("register 연결");
+export const getUser = async (req, res) => {
+    const {
+        params: { kakaoId }
+    } = req;
+    try {
+        const targetUser = await User.findAll({
+            where: {
+                kakaoId
+            }
+        });
+        res.send({
+            "response" : targetUser
+        });
+        console.log("유저 정보 조회 완료");
+    } catch (err) {
+        const targetUser = [];
+        console.log(err);
+        res.send({
+            "response" : targetUser
+        });
+    }
+};
+export const addUser = async (req, res) => {
+    console.log("addUser 연결");
     const {
         body: { kakaoId, name, tel, profileImage, email }
     } = req;
@@ -26,6 +48,23 @@ export const register = async (req, res) => {
         });
     }
 }
+export const editUser = async (req, res) => {
+    console.log("editUser 연결");
+    const {
+        body: { name, profileImage }
+    } = req;
+
+    // 이름, 프로질 사진 변경
+};
+export const delUser = async (req, res) => {
+    const {
+        params: { placeIdx }
+    } = req;
+
+    // 유저 삭제
+    // 인바이트 삭제
+    // 코멘트 삭제
+};
 export const getCmt = async (req, res) => {
     const {
         params: { placeIdx }
@@ -53,6 +92,7 @@ export const addCmt = async (req, res) => {
     const {
         body: { placeIdx, kakaoId, content }
     } = req;
+    // datetime : YYYY-MM-DD hh:mm:ss
     try {
         const newComment = await Comment.create({
             placeIdx,
@@ -153,41 +193,4 @@ export const editRate = async (req, res) => {
 };
 export const delRate = async (req, res) => {
     // 굳이 별점 삭제?
-};
-export const getReserve = async (req, res) => {
-    // place 관련 api로 커버
-};
-export const addReserve = async (req, res) => {
-    // edit만 지원해도 충분
-};
-export const editReserve = async (req, res) => {
-    console.log("editReserve 연결");
-    const {
-        body: { placeIdx, kakaoId, reserve, reserveDay }
-    } = req;
-    try {
-        await Comment.update({
-            reserve,
-            reserveDay
-            }, 
-            {
-                where: {
-                    placeIdx,
-                    kakaoId
-                }
-            }
-        );
-        res.send({
-            "response" : "success"
-        });
-        console.log('예약 수정 완료');
-    } catch(err) {
-        console.log(err);
-        res.send({
-            "response" : "failed"
-        });
-    }
-};
-export const delReserve = async (req, res) => {
-    // edit로 커버
 };
