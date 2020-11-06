@@ -173,13 +173,6 @@ export const delCmt = async (req, res) => {
         });
     }
 };
-export const getRate = async (req, res) => {
-    //getPlace에서 avg 계산
-};
-export const addRate = async (req, res) => {
-    // 코멘트 작성 이후에 별점 작성 가능
-    // 필요 X
-};
 export const editRate = async (req, res) => {
     console.log("editRate 연결");
     const {
@@ -206,7 +199,4 @@ export const editRate = async (req, res) => {
             "response" : "failed"
         });
     }
-};
-export const delRate = async (req, res) => {
-    // 굳이 별점 삭제?
 };

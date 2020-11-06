@@ -1,8 +1,7 @@
 import express from "express";
 import {
     getUser, addUser, editUser, delUser,
-    getCmt, addCmt, editCmt, delCmt,
-    getRate, addRate, editRate, delRate
+    getCmt, addCmt, delCmt, editRate
 } from "./controllers/userController";
 import {
     getMaps, addMap, editMap, delMap,
@@ -42,11 +41,7 @@ router.get('/pin/map/:mapIdx', getSpePins);
 // 코멘트
 router.get('/comment/:placeIdx', getCmt);
 router.post('/comment', addCmt);
-router.patch('/comment', editCmt);
 router.delete('/comment/:commentIdx', delCmt);
 
 // 별점
-router.get('/rate/:placeIdx', getRate);
-router.post('/rate', addRate);
 router.patch('/rate', editRate);
-router.delete('/rate/:commentIdx', delRate);

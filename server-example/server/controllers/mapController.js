@@ -211,6 +211,7 @@ export const editReserve = async (req, res) => {
     const {
         body: { placeIdx, reserve, reserveDay }
     } = req;
+    // datetime : YYYY-MM-DD hh:mm:ss UTC
     try {
         await Place.update({
             reserve,
