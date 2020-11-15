@@ -106,28 +106,6 @@ export const delUser = async (req, res) => {
         });
     }
 };
-export const getSpePlace = async (req, res) => {
-    const {
-        params: { placeIdx }
-    } = req;
-    try {
-        const commentList = await Comment.findAll({
-            where: {
-                placeIdx
-            }
-        });
-        res.send({
-            "response" : commentList
-        });
-        console.log("코멘트 조회 완료");
-    } catch (err) {
-        const commentList = [];
-        console.log(err);
-        res.send({
-            "response" : commentList
-        });
-    }
-};
 export const addCmt = async (req, res) => {
     console.log("addCmt 연결");
     const {

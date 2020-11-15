@@ -1,13 +1,12 @@
 import express from "express";
 import {
     getUser, addUser, editUser, delUser,
-    getSpePlace, addCmt, delCmt, editRate
+    addCmt, delCmt, editRate
 } from "./controllers/userController";
 import {
     getMaps, addMap, editMap, delMap,
-    getPlaces, addPlace, delPlace,
-    editReserve,
-    getAllPins, getSpePins,
+    getPlace, addPlace, delPlace, getPlaceList, 
+    editReserve, getAllPins, getSpePins
 } from "./controllers/mapController"
 export const router = express.Router();
 
@@ -27,9 +26,10 @@ router.delete('/map/:mapIdx', delMap);
 
 
 // 장소
-router.get('/place/:mapIdx', getPlaces);
+router.get('/place/:placeIdx', getPlace);
 router.post('/place', addPlace);
 router.delete('/place/:placeIdx', delPlace);
+router.get('/place/list/:mapIdx', getPlaceList);
 
 // 예약
 router.put('/reserve', editReserve);
@@ -39,7 +39,6 @@ router.get('/pin/:kakaoId', getAllPins);
 router.get('/pin/map/:mapIdx', getSpePins);
 
 // 코멘트
-router.get('/comment/:placeIdx', getSpePlace);
 router.post('/comment', addCmt);
 router.delete('/comment/:commentIdx', delCmt);
 

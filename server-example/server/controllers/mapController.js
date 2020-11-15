@@ -1,5 +1,7 @@
 const { Map, Place, Invite, Comment } = require('../models');
 
+// return res.status(statusCode.OK).send(util.success(statusCode.OK, resMessage.READ_NOTICE_LIST_SUCCESS, result));
+
 export const getMaps = async (req, res) => {
     const {
         params: { kakaoId }
@@ -135,25 +137,48 @@ export const delMap = async (req, res) => {
         });
     }
 };
-export const getPlaces = async (req, res) => {
+export const getPlace = async (req, res) => {
     const {
-        params: { mapIdx }
+        params: { placeIdx }
     } = req;
     try {
-        const placeList = await Place.findAll({
+        const place = await Place.findAll({
             where: {
-                mapIdx
+                placeIdx
             }
         });
+        const commentList = await Comment.findAll({
+            where: {
+                placeIdx
+            }
+        })
+        
+        let sumPlaceRate = 0;
+        let count = 0;
+        for (let index in commentList) {
+            if (commentList[index]['rate'] > -1) {
+                sumPlaceRate += commentList[index]['rate'];
+                count += 1;
+            }
+        }
+        let avgPlaceRate = -1;
+        if (count != 0) {
+            avgPlaceRate = sumPlaceRate / count;
+        }
+
+        let lastResponse = {
+            "place" : place,
+            "commentList" : commentList,
+            avg : avgPlaceRate 
+        }
         res.send({
-            "response" : placeList
+            "response" : lastResponse
         });
         console.log("장소 조회 완료");
     } catch (err) {
-        const placeList = [];
         console.log(err);
         res.send({
-            "response" : placeList
+            "response" : "failed"
         });
     }
 };
@@ -206,16 +231,38 @@ export const delPlace = async (req, res) => {
         });
     }
 };
+export const getPlaceList = async (req, res) => {
+    const {
+        params: { mapIdx }
+    } = req;
+    try {
+        const placeList = await Place.findAll({
+            where: {
+                mapIdx
+            }
+        });
+        res.send({
+            "response" : placeList
+        });
+        console.log("장소 리스트 조회 완료");
+    } catch (err) {
+        const placeList = [];
+        console.log(err);
+        res.send({
+            "response" : placeList
+        });
+    }
+};
 export const editReserve = async (req, res) => {
     console.log("editReserve 연결");
     const {
-        body: { placeIdx, reserve, reserveDay }
+        body: { placeIdx, reserve, reservedDay }
     } = req;
     // datetime : YYYY-MM-DD hh:mm:ss UTC
     try {
         await Place.update({
             reserve,
-            reserveDay
+            reservedDay
             }, 
             {
                 where: {
