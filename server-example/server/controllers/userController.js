@@ -106,7 +106,7 @@ export const delUser = async (req, res) => {
         });
     }
 };
-export const getCmt = async (req, res) => {
+export const getSpePlace = async (req, res) => {
     const {
         params: { placeIdx }
     } = req;

@@ -1,7 +1,7 @@
 import express from "express";
 import {
     getUser, addUser, editUser, delUser,
-    getCmt, addCmt, delCmt, editRate
+    getSpePlace, addCmt, delCmt, editRate
 } from "./controllers/userController";
 import {
     getMaps, addMap, editMap, delMap,
@@ -39,7 +39,7 @@ router.get('/pin/:kakaoId', getAllPins);
 router.get('/pin/map/:mapIdx', getSpePins);
 
 // 코멘트
-router.get('/comment/:placeIdx', getCmt);
+router.get('/comment/:placeIdx', getSpePlace);
 router.post('/comment', addCmt);
 router.delete('/comment/:commentIdx', delCmt);
 
