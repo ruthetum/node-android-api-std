@@ -15,10 +15,9 @@ export const getUser = async (req, res) => {
         });
         console.log("유저 정보 조회 완료");
     } catch (err) {
-        const targetUser = [];
         console.log(err);
         res.send({
-            "response" : targetUser
+            "response" : "failed"
         });
     }
 };

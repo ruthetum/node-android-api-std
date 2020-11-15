@@ -27,10 +27,9 @@ export const getMaps = async (req, res) => {
         });
         console.log("지도 조회 완료");
     } catch (err) {
-        const mapList = [];
         console.log(err);
         res.send({
-            "response" : mapList
+            "response" : "failed"
         });
     }
 };
@@ -246,10 +245,9 @@ export const getPlaceList = async (req, res) => {
         });
         console.log("장소 리스트 조회 완료");
     } catch (err) {
-        const placeList = [];
         console.log(err);
         res.send({
-            "response" : placeList
+            "response" : "failed"
         });
     }
 };
@@ -306,10 +304,9 @@ export const getAllPins = async (req, res) => {
         });
         console.log("전체 핀 조회 완료");
     } catch (err) {
-        const placeList = [];
         console.log(err);
         res.send({
-            "response" : mapList
+            "response" : "failed"
         });
     }
 };
@@ -328,10 +325,9 @@ export const getSpePins = async (req, res) => {
         });
         console.log("특정 핀 조회 완료");
     } catch (err) {
-        const placeList = [];
         console.log(err);
         res.send({
-            "response" : placeList
+            "response" : "failed"
         });
     }
 };
