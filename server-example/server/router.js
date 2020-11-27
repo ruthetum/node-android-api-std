@@ -30,9 +30,8 @@ router.get('/place/:placeIdx', getPlace);
 router.post('/place', addPlace);
 router.delete('/place/:placeIdx', delPlace);
 router.get('/place/list/:mapIdx', getPlaceList);
-
 // 예약
-router.put('/reserve', editReserve);
+router.put('place/reserve', editReserve);
 
 // 핀
 router.get('/pin/:kakaoId', getAllPins);
